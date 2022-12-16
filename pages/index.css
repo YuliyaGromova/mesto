@@ -2,7 +2,19 @@
 @import url(../vendor/fonts.css);
 @import url(../blocks/page/page.css);
 @import url(../blocks/logo/logo.css);
-/* @import url(../blocks/button/button.css); */
+@import url(../blocks/button/button.css);
+@import url(../blocks/button/__add/button__add.css);
+@import url(../blocks/content/content.css);
 
 /* header */
 @import url(../blocks/header/header.css);
+
+/* profile */
+@import url(../blocks/profile/profile.css);
+@import url(../blocks/profile/__user/profile__user.css);
+@import url(../blocks/profile/__name/profile__name.css);
+@import url(../blocks/profile/__info/profile__info.css);
+@import url(../blocks/profile/__avatar/profile__avatar.css);
+@import url(../blocks/profile/__button-add/profile__button-add.css);
+@import url(../blocks/profile/__name-edit/profile__name-edit.css);
+@import url(../blocks/profile/__button-edit/profile__button-edit.css);
