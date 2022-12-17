@@ -13,7 +13,7 @@
             <img class="logo" src="./images/logo.svg" alt="логотип Место">
         </header>
         <main class="content">
-            <section class="profile">
+            <section class="profile" aria-label="Профиль пользователя">
                 <img class="profile__avatar" src="./images/kusto.png" alt="ваша фотография">
                 <div class="profile__user">
                   <div class="profile__name-edit">
@@ -27,7 +27,54 @@
                 <button class="profile__button-add button" name="add">
                   <img class="button__add" src="./images/pluse.png" alt="добавить">
                 </button>
-              </section>
+            </section>
+            <section class="gallery" aria-label="Галерея">
+              <ul class="gallery__cards">
+                <li class="gallery__card">
+                  <img class="gallery__photo" src="./images/Russia.jpg" alt="Россия">
+                  <div class="gallery__info">
+                    <h2 class="gallery__name-place">Россия</h2>
+                    <button class="gallery__like button"><img class="like" src="./images/like.svg" alt="лайк"></button>
+                  </div>
+                </li>
+                <li class="gallery__card">
+                  <img class="gallery__photo" src="./images/Greece.jpg" alt="Греция">
+                  <div class="gallery__info">
+                    <h2 class="gallery__name-place">Греция</h2>
+                    <button class="gallery__like button"><img class="like" src="./images/like.svg" alt="лайк"></button>
+                  </div>
+                </li>
+                <li class="gallery__card">
+                  <img class="gallery__photo" src="./images/Emirates.jpg" alt="ОАЭ">
+                  <div class="gallery__info">
+                    <h2 class="gallery__name-place">Объединенные Арабские Эмираты</h2>
+                    <button class="gallery__like button"><img class="like" src="./images/like.svg" alt="лайк"></button>
+                  </div>
+                </li>
+                <li class="gallery__card">
+                  <img class="gallery__photo" src="./images/India.jpg" alt="Индия">
+                  <div class="gallery__info">
+                    <h2 class="gallery__name-place">Индия</h2>
+                    <button class="gallery__like button"><img class="like" src="./images/like.svg" alt="лайк"></button>
+                  </div>
+                </li>
+                <li class="gallery__card">
+                  <img class="gallery__photo" src="./images/Spain.jpg" alt="Испания">
+                  <div class="gallery__info">
+                    <h2 class="gallery__name-place">Испания</h2>
+                    <button class="gallery__like button"><img class="like" src="./images/like.svg" alt="лайк"></button>
+                  </div>
+                </li>
+                <li class="gallery__card">
+                  <img class="gallery__photo" src="./images/Maldives.jpg" alt="Мальдивы">
+                  <div class="gallery__info">
+                    <h2 class="gallery__name-place">Мальдивы</h2>
+                    <button class="gallery__like button"><img src="./images/like.svg" alt="лайк"></button>
+                  </div>
+                </li>
+              </ul>
+
+            </section>
         </main>
         <footer class="footer"></footer>
     </div>
