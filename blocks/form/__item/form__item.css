@@ -1,0 +1,11 @@
+.form__item {
+    margin: 0;
+    padding: 0;
+    padding-top: 43px;
+    border: none;
+    box-sizing: border-box;
+    border-bottom: 1px solid #bcbcc4;
+    width: 100%;
+    font-size: 14px;
+    line-height: 1.2;
+}

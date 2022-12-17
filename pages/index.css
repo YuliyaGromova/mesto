@@ -31,3 +31,16 @@
 /* footer */
 @import url(../blocks/footer/footer.css);
 @import url(../blocks/footer/__author/footer__author.css);
+
+/* form */
+@import url(../blocks/form/form.css);
+@import url(../blocks/form/__container/form__container.css);
+@import url(../blocks/form/__edit/form__edit.css);
+@import url(../blocks/form/__heading/form__heading.css);
+@import url(../blocks/form/__input/form__input.css);
+@import url(../blocks/form/__item/form__item.css);
+@import url(../blocks/form/__item/_el/form__item_el_info.css);
+@import url(../blocks/form/__item/_el/form__item_el_name.css);
+@import url(../blocks/form/__submit/form__submit.css);
+@import url(../blocks/form/__toggle-image/form__toggle-image.css);
+@import url(../blocks/form/__toggle/form__toggle.css);

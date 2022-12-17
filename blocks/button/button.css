@@ -7,4 +7,5 @@
     object-position: center;
     line-height: 0;
     box-sizing: border-box;
+    cursor: pointer;
 }
