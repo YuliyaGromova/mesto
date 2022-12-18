@@ -8,4 +8,9 @@
     line-height: 0;
     box-sizing: border-box;
     cursor: pointer;
+    transition: .3s;
+}
+
+.button:hover {
+    opacity: .6;
 }

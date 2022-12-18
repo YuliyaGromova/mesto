@@ -1,0 +1,6 @@
+.like_active {
+    width: 100%;
+    background-image: url(../../../images/LikePush.svg);
+    background-size: content;
+    background-repeat: no-repeat;
+}

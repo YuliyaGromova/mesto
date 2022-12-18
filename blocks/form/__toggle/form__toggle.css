@@ -3,6 +3,12 @@
     align-self: flex-end;
     top: -40px;
     right: -40px;
+    cursor: pointer;
+    transition: .3s;
+}
+
+.form__toggle:hover {
+    opacity: .6;
 }
 
 @media screen and (max-width: 950px) {

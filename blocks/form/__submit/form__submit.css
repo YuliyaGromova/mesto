@@ -11,6 +11,12 @@
   cursor: pointer;
   color: #fff;
   background-color: #000;
+  border-radius: 2px;
+  transition: .3s;
+}
+
+.form__submit:hover {
+  opacity: .8;
 }
 
 @media screen and (max-width: 950px) {
