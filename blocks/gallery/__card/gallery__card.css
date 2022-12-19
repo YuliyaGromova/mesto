@@ -1,7 +1,7 @@
 .gallery__card {
   margin: 0;
   padding: 0;
-  width: calc((100% + 17px)/3 - 17px);
+  width: calc((100% + 17px) / 3 - 17px);
   height: 361px;
   background-color: #fff;
   border-radius: 10px;
@@ -13,7 +13,7 @@
 
 @media screen and (max-width: 950px) {
   .gallery__card {
-    width: calc((100% + 17px)/2 - 17px);
+    width: calc((100% + 17px) / 2 - 17px);
   }
 }
 

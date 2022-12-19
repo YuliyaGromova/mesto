@@ -1,11 +1,11 @@
 .profile__button-edit {
-    margin: 0;
-    padding: 0;
-    padding-right: 10px;
+  margin: 0;
+  padding: 0;
+  padding-right: 10px;
 }
 
-@media screen and (max-width: 950px){
-    .profile__button-edit {
-        transform: scale(.75);
-    }
+@media screen and (max-width: 950px) {
+  .profile__button-edit {
+    transform: scale(0.75);
+  }
 }

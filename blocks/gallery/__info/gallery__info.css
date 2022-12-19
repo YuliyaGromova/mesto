@@ -1,7 +1,6 @@
 .gallery__info {
-    margin: auto 20px;
-    padding: 0;
-    display: flex;
-    justify-content: space-between;
-    
+  margin: auto 20px;
+  padding: 0;
+  display: flex;
+  justify-content: space-between;
 }

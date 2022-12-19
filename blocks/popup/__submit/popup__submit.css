@@ -12,16 +12,16 @@
   color: #fff;
   background-color: #000;
   border-radius: 2px;
-  transition: .3s;
+  transition: 0.3s;
 }
 
 .popup__submit:hover {
-  opacity: .8;
+  opacity: 0.8;
 }
 
 @media screen and (max-width: 950px) {
-    .popup__submit {
-        font-size: 14px;
-        height: 46px;
-    }
+  .popup__submit {
+    font-size: 14px;
+    height: 46px;
+  }
 }
