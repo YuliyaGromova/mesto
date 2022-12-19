@@ -1,4 +1,4 @@
-.form__toggle-image {
+.popup__toggle-image {
     object-fit: cover;
     object-position: center;
     width: 32px;
@@ -6,7 +6,7 @@
 }
 
 @media screen and (max-width: 950px) {
-    .form__toggle-image {
+    .popup__toggle-image {
         width: 20px;
         height: 20px;
     }

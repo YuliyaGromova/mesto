@@ -1,4 +1,4 @@
-.form__item {
+.popup__item {
     margin: 0;
     padding: 0;
     padding-top: 43px;
@@ -8,8 +8,11 @@
     width: 100%;
     font-size: 14px;
     line-height: 1.2;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
 }
 
-.form__item:focus {
+.popup__item:focus {
     outline-style: none;
   }

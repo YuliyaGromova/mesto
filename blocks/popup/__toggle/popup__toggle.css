@@ -1,4 +1,4 @@
-.form__toggle {
+.popup__toggle {
     position: relative;
     align-self: flex-end;
     top: -40px;
@@ -7,12 +7,12 @@
     transition: .3s;
 }
 
-.form__toggle:hover {
+.popup__toggle:hover {
     opacity: .6;
 }
 
 @media screen and (max-width: 950px) {
-    .form__toggle {
+    .popup__toggle {
         top: -36px;
         right: 0;
     }
