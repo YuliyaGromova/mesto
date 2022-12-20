@@ -18,14 +18,14 @@
         <div class="profile__user">
           <div class="profile__name-edit">
             <h1 class="profile__name">Жак-Ив Кусто</h1>
-            <button class="profile__button-edit button" name="edit">
+            <button class="profile__button-edit button" type="button" name="edit">
               <img src="./images/edit.svg" alt="редактировать">
             </button>
           </div>
           <p class="profile__info">Исследователь океана</p>
         </div>
-        <button class="profile__button-add button" name="add">
-          <img class="button__add" src="./images/pluse.png" alt="добавить">
+        <button class="profile__button-add button" name="add" type="button">
+          <img class="button__add" src="./images/pluse.svg" alt="добавить">
         </button>
       </section>
       <section class="gallery" aria-label="Галерея">
@@ -41,35 +41,35 @@
             <img class="gallery__photo" src="./images/Greece.jpg" alt="Греция">
             <div class="gallery__info">
               <h2 class="gallery__name-place">Греция</h2>
-              <button class="gallery__like like"></button>
+              <button class="gallery__like like" type="button" name="iLike"></button>
             </div>
           </li>
           <li class="gallery__card">
             <img class="gallery__photo" src="./images/Emirates.jpg" alt="ОАЭ">
             <div class="gallery__info">
               <h2 class="gallery__name-place">Объединенные Арабские Эмираты</h2>
-              <button class="gallery__like like"></button>
+              <button class="gallery__like like" type="button" name="iLike"></button>
             </div>
           </li>
           <li class="gallery__card">
             <img class="gallery__photo" src="./images/India.jpg" alt="Индия">
             <div class="gallery__info">
               <h2 class="gallery__name-place">Индия</h2>
-              <button class="gallery__like like"></button>
+              <button class="gallery__like like" type="button" name="iLike"></button>
             </div>
           </li>
           <li class="gallery__card">
             <img class="gallery__photo" src="./images/Spain.jpg" alt="Испания">
             <div class="gallery__info">
               <h2 class="gallery__name-place">Испания</h2>
-              <button class="gallery__like like"></button>
+              <button class="gallery__like like" type="button" name="iLike"></button>
             </div>
           </li>
           <li class="gallery__card">
             <img class="gallery__photo" src="./images/Maldives.jpg" alt="Мальдивы">
             <div class="gallery__info">
               <h2 class="gallery__name-place">Мальдивы</h2>
-              <button class="gallery__like like"></button>
+              <button class="gallery__like like" type="button" name="iLike"></button>
             </div>
           </li>
         </ul>
@@ -80,15 +80,15 @@
     </footer>
     <section class="popup">
       <div class="popup__container">
-        <div class="popup__toggle">
+        <button type="button" class="popup__toggle button" name="closePopup">
           <img class="popup__toggle-image" src="./images/close.svg" alt="закрыть">
-        </div>
-        <form class="popup__edit">
+        </button>
+        <form class="popup__edit" name="popupEdit">
           <h2 class="popup__heading">Редактировать профиль</h2>
           <fieldset class="popup__input">
             <input class="popup__item popup__item_el_name" type="text" placeholder="Ваше имя" name="UserName">
             <input class="popup__item popup__item_el_info" type="text" placeholder="О себе" name="UserInfo">
-            <button class="popup__submit" type="submit">Сохранить</button>
+            <button class="popup__submit" type="submit" name="saveEdit">Сохранить</button>
           </fieldset>
         </form>
       </div>
