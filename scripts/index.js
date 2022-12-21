@@ -9,7 +9,7 @@ let editName = editPopup.querySelector('.popup__item_el_name');
 let userInfo = profile.querySelector('.profile__info');
 let editInfo = editPopup.querySelector('.popup__item_el_info');
 
-const editSave = editPopup.querySelector('.popup__container');
+const editSave = editPopup.querySelector('.popup__edit');
 
 function popupOpen() {
   editPopup.classList.add('popup_opened');
