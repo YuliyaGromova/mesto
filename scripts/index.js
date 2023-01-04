@@ -1,6 +1,6 @@
-let editPopup = document.querySelector('.popup');
+let editPopup= document.querySelector('#popupEdit');
 let toggleButton = editPopup.querySelector('.popup__toggle');
-let profile = document.querySelector('.profile__user');
+let profile = document.querySelector('.profile');
 let editButton = profile.querySelector('.profile__button-edit');
 
 let userName = profile.querySelector('.profile__name');
@@ -15,7 +15,7 @@ function popupOpen() {
   editPopup.classList.add('popup_opened');
   editName.value = userName.textContent;
   editInfo.value = userInfo.textContent;
-}
+};
 
 function popupClose() {
   editPopup.classList.remove('popup_opened');
@@ -34,6 +34,7 @@ function handleFormSubmit(evt) {
 
 // кнопка "редактировать" открывает popup
 editButton.addEventListener('click', popupOpen);
+
 // кнопка "закрыть" в popup закрывает его
 toggleButton.addEventListener('click', popupClose);
 
@@ -41,7 +42,6 @@ toggleButton.addEventListener('click', popupClose);
 editSave.addEventListener('submit', handleFormSubmit);
 
 // умолчательные карточки с фото
-
 const initialCards = [
   {
     name: 'Россия',
@@ -77,4 +77,52 @@ for (let i=0; i<initialCards.length; i+=1) {
   cardTemplate.querySelector('.gallery__photo').alt = initialCards[i].name;
   cardTemplate.querySelector('.gallery__name-place').textContent = initialCards[i].name;
   addCards.append(cardTemplate);
+
 }
+
+
+// popup  добавление нового места
+let addPopup= document.querySelector('#popupAdd');
+let toggleButtonAdd = addPopup.querySelector('.popup__toggle');
+let addButton = profile.querySelector('.profile__button-add');
+
+let namePlace = addCards.querySelector('.gallery__name-place');
+let namePlaceNew = addPopup.querySelector('.popup__item_el_name');
+
+let linkPhoto = addCards.querySelector('.gallery__photo');
+let linkPhotoNew = addPopup.querySelector('.popup__item_el_info');
+
+const addSave = addPopup.querySelector('.popup__edit');
+
+function popupOpenTwo() {
+  addPopup.classList.add('popup_opened');
+  linkPhotoNew.value = '';
+  namePlaceNew.value = '';
+ };
+
+function popupCloseTwo() {
+  addPopup.classList.remove('popup_opened');
+};
+
+function handleFormSubmitTwo(evt) {
+  evt.preventDefault();
+
+  let namePlaceInput = namePlaceNew.value;
+  let linkInput = linkPhotoNew.value;
+
+  const cardTemplate = template.querySelector('.gallery__card').cloneNode(true); //клон 
+  cardTemplate.querySelector('.gallery__photo').src = linkInput;
+  cardTemplate.querySelector('.gallery__photo').alt = namePlaceInput;
+  cardTemplate.querySelector('.gallery__name-place').textContent = namePlaceInput;
+  addCards.append(cardTemplate);
+
+  popupCloseTwo();
+}
+
+// // кнопка "редактировать" открывает popup
+addButton.addEventListener('click', popupOpenTwo);
+// // кнопка "закрыть" в popup закрывает его
+toggleButtonAdd.addEventListener('click', popupCloseTwo);
+
+// // кнопка "сохранить" в popup сохраняет введенные значения и закрывает popup
+addSave.addEventListener('submit', handleFormSubmitTwo);
