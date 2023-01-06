@@ -29,6 +29,7 @@
 @import url(../blocks/gallery/__like/gallery__like.css);
 @import url(../blocks/gallery/__name-place/gallery__name-place.css);
 @import url(../blocks/gallery/__photo/gallery__photo.css);
+@import url(../blocks/gallery/__delete/gallery__delete.css);
 
 /* footer */
 @import url(../blocks/footer/footer.css);
@@ -45,3 +46,9 @@
 @import url(../blocks/popup/__toggle-image/popup__toggle-image.css);
 @import url(../blocks/popup/__toggle/popup__toggle.css);
 @import url(../blocks/popup/_opened/popup_opened.css);
+@import url(../blocks/toggle/toggle.css);
+
+/* popup photo */
+@import url(../blocks/popup/__photo/popup__photo.css);
+@import url(../blocks/popup/__place-info/popup__place-info.css);
+@import url(../blocks/popup/__subtitle/popup__subtitle.css);
