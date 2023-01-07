@@ -40,13 +40,13 @@
 @import url(../blocks/popup/__container/popup__container.css);
 @import url(../blocks/popup/__edit/popup__edit.css);
 @import url(../blocks/popup/__heading/popup__heading.css);
-@import url(../blocks/popup/__input/popup__input.css);
 @import url(../blocks/popup/__item/popup__item.css);
 @import url(../blocks/popup/__submit/popup__submit.css);
 @import url(../blocks/popup/__toggle-image/popup__toggle-image.css);
 @import url(../blocks/popup/__toggle/popup__toggle.css);
 @import url(../blocks/popup/_opened/popup_opened.css);
 @import url(../blocks/toggle/toggle.css);
+@import url(../blocks/popup/_place/popup_place_bigphoto.css);
 
 /* popup photo */
 @import url(../blocks/popup/__photo/popup__photo.css);
