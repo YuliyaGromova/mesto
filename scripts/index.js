@@ -1,16 +1,28 @@
+const profilePopup = document.querySelector("#popupEdit");
+const cardPopup = document.querySelector("#popupAdd");
+const imagePopup = document.querySelector("#popupOpenPic");
+
 const profile = document.querySelector(".profile");
 const userName = profile.querySelector(".profile__name");
 const userInfo = profile.querySelector(".profile__info");
-const editButton = profile.querySelector(".profile__button-edit");
-const addButton = profile.querySelector(".profile__button-add");
+const buttonEditProfile = profile.querySelector(".profile__button-edit");
+const buttonAddCard = profile.querySelector(".profile__button-add");
 
-const addCards = document.querySelector(".gallery__cards");
+const cardsElement = document.querySelector(".gallery__cards");
 const template = document.querySelector("#gallery-card").content;
+const cardElement = template.querySelector(".gallery__card");
 
-const toggleButtons = document.getElementsByClassName("popup__toggle"); // псевдомассив из "крестиков"
-const buttonsSave = document.getElementsByClassName("popup__edit"); // псевдомассив из кнопок сохраняющих изменения
+const buttonsToggleList = document.querySelectorAll(".popup__toggle"); // псевдомассив из "крестиков"
+const buttonSaveEditProfile = profilePopup.querySelector(".popup__edit");
+const userNamePopup = profilePopup.querySelector(".popup__item_el_name");
+const userInfoPopup = profilePopup.querySelector(".popup__item_el_info");
+const buttonSaveCard = cardPopup.querySelector(".popup__edit");
+const photoNamePlacePopup = cardPopup.querySelector(".popup__item_el_name");
+const photoLinkPlacePopup = cardPopup.querySelector(".popup__item_el_info");
+const imagePopupBigPhoto = imagePopup.querySelector(".popup__photo");
+const subtitlePopupBigPhoto = document.querySelector(".popup__subtitle");
 
-// Массив с умолчательными карточками
+//Массив с умолчательными карточками
 const initialCards = [
   {
     name: "Россия",
@@ -38,31 +50,27 @@ const initialCards = [
   },
 ];
 
-//функция открывающая popup
-function popupOpen(index) {
-  //если кликнута кнопка редактирования проофиля
-  if (index === "edit") {
-    document.querySelector("#popupEdit").classList.add("popup_opened");
-
-    document.querySelector("[name='namePopup']").value = userName.textContent;
-    document.querySelector("[name='infoPopup']").value = userInfo.textContent;
-    //если кликнута кнопка добавления новой карточки
-  } else if (index === "add") {
-    document.querySelector("#popupAdd").classList.add("popup_opened");
-    document.querySelector("[name='namePlacePopup']").value = "";
-    document.querySelector("[name='linkPopup']").value = "";
-  } else {
-    alert("что то пошло не так");
-  }
+function openPopupProfile() {
+  userNamePopup.value = userName.textContent;
+  userInfoPopup.value = userInfo.textContent;
+  openPopup(profilePopup);
 }
 
-function popupOpenPic(evt) {
-  const eventTargetPic = evt.target.parentElement;
-  document.querySelector("#popupOpenPic").classList.add("popup_opened");
-  document.querySelector(".popup__photo").src =
-    eventTargetPic.querySelector(".gallery__photo").src;
-  document.querySelector(".popup__subtitle").textContent =
-    eventTargetPic.querySelector(".gallery__name-place").textContent;
+function openPopupAddCard() {
+  photoNamePlacePopup.value = "";
+  photoLinkPlacePopup.value = "";
+  openPopup(cardPopup);
+}
+
+function openPopupBigImage(name, link) {
+  imagePopupBigPhoto.src = link;
+  subtitlePopupBigPhoto.textContent = name;
+  openPopup(imagePopup);
+}
+
+//функция открывающая popup
+function openPopup(popup) {
+  popup.classList.add("popup_opened");
 }
 
 //функция закрывающая открытый popup
@@ -70,73 +78,67 @@ function popupClose() {
   document.querySelector(".popup_opened").classList.remove("popup_opened");
 }
 
-//функция сохраняющая введенные данные
-function handleFormSubmit(evt) {
+function saveEditProfile(evt) {
   evt.preventDefault();
-  const eventTarget = evt.target;
-  if (eventTarget.name === "popupEdit") {
-    const nameInput = document.querySelector("[name='namePopup']").value;
-    const infoInput = document.querySelector("[name='infoPopup']").value;
-    //Введенные данные попали на страницу в раздел информации о пользователе
-    userName.textContent = nameInput;
-    userInfo.textContent = infoInput;
-  } else if (eventTarget.name === "popupAdd") {
-    const nameInput = document.querySelector("[name='namePlacePopup']").value;
-    const infoInput = document.querySelector("[name='linkPopup']").value;
+  //Введенные данные попали на страницу в раздел информации о пользователе
+  userName.textContent = userNamePopup.value;
+  userInfo.textContent = userInfoPopup.value;
+  popupClose();
+}
 
-    //создается новая карточка
-    createCard(nameInput, infoInput);
-  }
+function saveAddCard(evt) {
+  evt.preventDefault();
+  addCardInGallery(photoNamePlacePopup.value, photoLinkPlacePopup.value);
   popupClose();
 }
 
 //лайки
 function likeDislike(evt) {
-  const eventTargetLike = evt.target;
-  eventTargetLike.classList.toggle("like_active");
+  evt.target.classList.toggle("like_active");
 }
 
 //удаление карточки по "урне"
 function deleteCard(evt) {
-  const eventTargetDelete = evt.target.parentElement;
-  eventTargetDelete.remove();
+  evt.target.closest(".gallery__card").remove();
 }
+
 //создание новой карточки
 function createCard(name, link) {
-  const cardTemplate = template.querySelector(".gallery__card").cloneNode(true); //клон
-  cardTemplate.querySelector(".gallery__photo").src = link;
-  cardTemplate.querySelector(".gallery__photo").alt = name;
+  const cardTemplate = cardElement.cloneNode(true); //клон
+  const photoTemplate = cardTemplate.querySelector(".gallery__photo");
+  photoTemplate.src = link;
+  photoTemplate.alt = name;
   cardTemplate.querySelector(".gallery__name-place").textContent = name;
-  addCards.prepend(cardTemplate);
   cardTemplate.querySelector(".like").addEventListener("click", likeDislike);
   cardTemplate
     .querySelector(".gallery__delete")
     .addEventListener("click", deleteCard);
-  cardTemplate
-    .querySelector(".gallery__photo")
-    .addEventListener("click", popupOpenPic);
+  photoTemplate.addEventListener("click", () => {
+    openPopupBigImage(name, link);
+  });
+  return cardTemplate;
 }
 
-// умолчательные карточки с фото (отображаются при загрузке страницы)
-for (let i = 0; i < initialCards.length; i++) {
-  createCard(initialCards[i].name, initialCards[i].link);
+function addCardInGallery(name, link) {
+  cardsElement.prepend(createCard(name, link));
 }
 
-// кнопка "редактировать" открывает popup редактирования информации о пользователе
-editButton.addEventListener("click", () => {
-  popupOpen("edit");
-});
-// кнопка "добавить" открывает popup добавления новой картиочки
-addButton.addEventListener("click", () => {
-  popupOpen("add");
+//умолчательные карточки с фото (отображаются при загрузке страницы)
+initialCards.forEach((item) => {
+  addCardInGallery(item.name, item.link);
 });
 
-// кнопка "закрыть" в popup закрывает открытый popup (навешивание события на все крестики)
-for (let i = 0; i < toggleButtons.length; i++) {
-  toggleButtons[i].addEventListener("click", popupClose);
-}
+//кнопка "редактировать" открывает popup редактирования информации о пользователе
+buttonEditProfile.addEventListener("click", openPopupProfile);
 
-// кнопка "сохранить" в popup сохраняет введенные значения и закрывает popup (навешивание события на все кнопки сохраняющие изменения)
-for (let i = 0; i < buttonsSave.length; i++) {
-  buttonsSave[i].addEventListener("submit", handleFormSubmit);
-}
+//кнопка "добавить" открывает popup добавления новой картиочки
+buttonAddCard.addEventListener("click", openPopupAddCard);
+
+//кнопка "закрыть" в popup закрывает открытый popup (навешивание события на все крестики)
+buttonsToggleList.forEach((item) => {
+  item.addEventListener("click", popupClose);
+});
+
+//кнопка "сохранить" в popup сохраняет введенные значения и закрывает popup (навешивание события на все кнопки сохраняющие изменения)
+buttonSaveEditProfile.addEventListener("submit", saveEditProfile);
+buttonSaveCard.addEventListener("submit", saveAddCard);
