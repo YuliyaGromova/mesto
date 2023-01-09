@@ -12,11 +12,11 @@ const cardsElement = document.querySelector(".gallery__cards");
 const template = document.querySelector("#gallery-card").content;
 const cardElement = template.querySelector(".gallery__card");
 
-const buttonsToggleList = document.querySelectorAll(".popup__toggle"); // псевдомассив из "крестиков"
-const buttonSaveEditProfile = profilePopup.querySelector(".popup__edit");
+const buttonsToggleList = document.querySelectorAll(".popup__toggle");
+const formSaveEditProfile = profilePopup.querySelector(".popup__edit");
 const userNamePopup = profilePopup.querySelector(".popup__item_el_name");
 const userInfoPopup = profilePopup.querySelector(".popup__item_el_info");
-const buttonSaveCard = cardPopup.querySelector(".popup__edit");
+const formSaveCard = cardPopup.querySelector(".popup__edit");
 const photoNamePlacePopup = cardPopup.querySelector(".popup__item_el_name");
 const photoLinkPlacePopup = cardPopup.querySelector(".popup__item_el_info");
 const imagePopupBigPhoto = imagePopup.querySelector(".popup__photo");
@@ -57,13 +57,13 @@ function openPopupProfile() {
 }
 
 function openPopupAddCard() {
-  photoNamePlacePopup.value = "";
-  photoLinkPlacePopup.value = "";
+  formSaveCard.reset();
   openPopup(cardPopup);
 }
 
 function openPopupBigImage(name, link) {
   imagePopupBigPhoto.src = link;
+  imagePopupBigPhoto.alt = name;
   subtitlePopupBigPhoto.textContent = name;
   openPopup(imagePopup);
 }
@@ -74,8 +74,8 @@ function openPopup(popup) {
 }
 
 //функция закрывающая открытый popup
-function popupClose() {
-  document.querySelector(".popup_opened").classList.remove("popup_opened");
+function closePopup(popup) {
+  popup.classList.remove("popup_opened");
 }
 
 function saveEditProfile(evt) {
@@ -83,13 +83,13 @@ function saveEditProfile(evt) {
   //Введенные данные попали на страницу в раздел информации о пользователе
   userName.textContent = userNamePopup.value;
   userInfo.textContent = userInfoPopup.value;
-  popupClose();
+  closePopup(profilePopup);
 }
 
 function saveAddCard(evt) {
   evt.preventDefault();
   addCardInGallery(photoNamePlacePopup.value, photoLinkPlacePopup.value);
-  popupClose();
+  closePopup(cardPopup);
 }
 
 //лайки
@@ -136,9 +136,10 @@ buttonAddCard.addEventListener("click", openPopupAddCard);
 
 //кнопка "закрыть" в popup закрывает открытый popup (навешивание события на все крестики)
 buttonsToggleList.forEach((item) => {
-  item.addEventListener("click", popupClose);
+  const popup = item.closest('.popup');
+  item.addEventListener('click', () => closePopup(popup)); 
 });
 
 //кнопка "сохранить" в popup сохраняет введенные значения и закрывает popup (навешивание события на все кнопки сохраняющие изменения)
-buttonSaveEditProfile.addEventListener("submit", saveEditProfile);
-buttonSaveCard.addEventListener("submit", saveAddCard);
+formSaveEditProfile.addEventListener("submit", saveEditProfile);
+formSaveCard.addEventListener("submit", saveAddCard);
