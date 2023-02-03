@@ -52,3 +52,10 @@
 @import url(../blocks/popup/__photo/popup__photo.css);
 @import url(../blocks/popup/__place-info/popup__place-info.css);
 @import url(../blocks/popup/__subtitle/popup__subtitle.css);
+
+/* new */
+@import url(../blocks/popup/__submit/_noactive/popup__submit_noactive.css);
+
+/* error */
+@import url(../blocks/popup/__item-error/popup__item-error.css);
+@import url(../blocks/popup/__item-error/_active/popup__item-error_active.css);
