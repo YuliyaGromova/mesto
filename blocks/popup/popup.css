@@ -12,3 +12,8 @@
   transition-duration:  .5s;
   transition-timing-function: ease-out;
 }
+
+.popup:hover {
+  cursor: pointer;
+}
+

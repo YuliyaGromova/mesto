@@ -21,7 +21,6 @@ const photoNamePlacePopup = cardPopup.querySelector(".popup__item_el_name");
 const photoLinkPlacePopup = cardPopup.querySelector(".popup__item_el_info");
 const imagePopupBigPhoto = imagePopup.querySelector(".popup__photo");
 const subtitlePopupBigPhoto = document.querySelector(".popup__subtitle");
-const buttonSaveNewCard = formSaveCard.querySelector('.popup__submit');
 
 //Массив с умолчательными карточками
 const initialCards = [
@@ -59,7 +58,6 @@ function openPopupProfile() {
 
 function openPopupAddCard() {
   formSaveCard.reset();
-  buttonSaveNewCard.classList.add("popup__submit_noactive");
   openPopup(cardPopup);
 }
 
@@ -155,3 +153,18 @@ buttonsToggleList.forEach((item) => {
 //кнопка "сохранить" в popup сохраняет введенные значения и закрывает popup (навешивание события на все кнопки сохраняющие изменения)
 formSaveEditProfile.addEventListener("submit", saveEditProfile);
 formSaveCard.addEventListener("submit", saveAddCard);
+
+//новое
+function closePopupOverlay(evt) {
+  if (evt.currentTarget === evt.target) {
+    closePopup(evt.target);
+  }
+}
+
+const popupList = Array.from(document.querySelectorAll('.popup'));
+popupList.forEach((evt) => {
+  evt.addEventListener('click', closePopupOverlay);
+})
+
+
+
