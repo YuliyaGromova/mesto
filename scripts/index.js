@@ -69,12 +69,17 @@ function openPopupBigImage(name, link) {
 }
 
 //функция открывающая popup
+// ПР6 добавила валидацию при открытии
 function openPopup(popup) {
   popup.classList.add("popup_opened");
   const formElement = popup.querySelector(".popup__edit");
-  validateForm(formElement);
+  if (popup !== imagePopup) {
+    validateForm(formElement);
+  }
 }
 
+
+// ПР6 валидация формы при открытии
 function validateForm(form, config = formValidationConfig) {
   toggleButton(form, config);
   const inputList = Array.from(form.querySelectorAll(".popup__item"));
@@ -154,17 +159,24 @@ buttonsToggleList.forEach((item) => {
 formSaveEditProfile.addEventListener("submit", saveEditProfile);
 formSaveCard.addEventListener("submit", saveAddCard);
 
-//новое
+//ПР6 закрытие по оверлею
 function closePopupOverlay(evt) {
   if (evt.currentTarget === evt.target) {
     closePopup(evt.target);
   }
 }
 
-const popupList = Array.from(document.querySelectorAll('.popup'));
+// ПР6 закрытие по Esc
+function closePopupEscape(evt) {
+  if (evt.key == "Escape") {
+    closePopup(document.querySelector('.popup_opened'));
+  }
+}
+
+const popupList = Array.from(document.querySelectorAll(".popup"));
 popupList.forEach((evt) => {
-  evt.addEventListener('click', closePopupOverlay);
-})
+  evt.addEventListener("click", closePopupOverlay);
+});
 
-
-
+// обработчик события для закрытия попапа по esc
+document.addEventListener("keydown", closePopupEscape);
