@@ -8,7 +8,6 @@
   height: 43px;
   display: block;
   opacity: 0;
-  
   overflow: hidden;
-  width: 300px;
+  width: 100%;
 }

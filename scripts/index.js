@@ -21,6 +21,7 @@ const photoNamePlacePopup = cardPopup.querySelector(".popup__item_el_name");
 const photoLinkPlacePopup = cardPopup.querySelector(".popup__item_el_info");
 const imagePopupBigPhoto = imagePopup.querySelector(".popup__photo");
 const subtitlePopupBigPhoto = document.querySelector(".popup__subtitle");
+const buttonSaveNewCard = formSaveCard.querySelector('.popup__submit');
 
 //Массив с умолчательными карточками
 const initialCards = [
@@ -58,6 +59,7 @@ function openPopupProfile() {
 
 function openPopupAddCard() {
   formSaveCard.reset();
+  buttonSaveNewCard.classList.add("popup__submit_noactive");
   openPopup(cardPopup);
 }
 
@@ -71,6 +73,16 @@ function openPopupBigImage(name, link) {
 //функция открывающая popup
 function openPopup(popup) {
   popup.classList.add("popup_opened");
+  const formElement = popup.querySelector(".popup__edit");
+  validateForm(formElement);
+}
+
+function validateForm(form, config = formValidationConfig) {
+  toggleButton(form, config);
+  const inputList = Array.from(form.querySelectorAll(".popup__item"));
+  inputList.forEach((item) => {
+    handelFormInput(item, config);
+  });
 }
 
 //функция закрывающая открытый popup
@@ -136,64 +148,10 @@ buttonAddCard.addEventListener("click", openPopupAddCard);
 
 //кнопка "закрыть" в popup закрывает открытый popup (навешивание события на все крестики)
 buttonsToggleList.forEach((item) => {
-  const popup = item.closest('.popup');
-  item.addEventListener('click', () => closePopup(popup)); 
+  const popup = item.closest(".popup");
+  item.addEventListener("click", () => closePopup(popup));
 });
 
 //кнопка "сохранить" в popup сохраняет введенные значения и закрывает popup (навешивание события на все кнопки сохраняющие изменения)
 formSaveEditProfile.addEventListener("submit", saveEditProfile);
 formSaveCard.addEventListener("submit", saveAddCard);
-
-//пошла жара
-
-//const formElement = document.querySelector('.popup__edit');
-//const formInput = formElement.querySelector('.popup__item');
-//const formError = formElement.querySelector(`.${formInput.id}-error`);
-
-//функция которая добавляет класс с ошибкой
-const showError = (formElement, inputElement, errorMessage) => {
-  const formError =  formElement.querySelector(`.${inputElement.id}-error`);
-  //formElement.classList.add('popup__item_type_error');
-  formError.textContent = errorMessage;
-  formError.classList.add('popup__item-error_active');
-};
-
-//функция которая удаляет класс с ошибкой
-const hideError = (formElement, inputElement) => {
-  const formError =  formElement.querySelector(`.${inputElement.id}-error`);
-  //element.classList.remove('popup__item_type_error');
-  formError.classList.remove('popup__item-error_active');
-  formError.textContent = '';
-};
-
-//функция которая проверяет валидность поля
-const isValid = (formElement, inputElement) => {
-  if (!inputElement.validity.valid) {
-    showError(formElement, inputElement, inputElement.validationMessage);
-  } else {
-    hideError(formElement, inputElement);
-  }
-};
-
-//проверяем функцию на каждый символ
-//formInput.addEventListener('input', isValid);
-
-// добавляем обработчики всем полям
-const setEventListenersInputs = (formElement) => {
-  const inputList = Array.from(formElement.querySelectorAll('.popup__item'));
-  inputList.forEach((inputElement) => {
-    inputElement.addEventListener('input', () => {
-      isValid(formElement, inputElement);
-    });
-  });
-};
-
-//добавляем обработчики всем формам
-const setEventListenersForms = () => {
-  const formList = Array.from(document.querySelectorAll('.popup__edit'));
-  formList.forEach((formElement) => {
-    setEventListenersInputs(formElement);
-  });
-}
-
-setEventListenersForms();
