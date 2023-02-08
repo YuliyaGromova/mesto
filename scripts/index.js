@@ -53,11 +53,13 @@ const initialCards = [
 function openPopupProfile() {
   userNamePopup.value = userName.textContent;
   userInfoPopup.value = userInfo.textContent;
-  openPopup(profilePopup);
+  validateForm(formSaveEditProfile);
+  openPopup(profilePopup); 
 }
 
 function openPopupAddCard() {
   formSaveCard.reset();
+  validateForm(formSaveCard);
   openPopup(cardPopup);
 }
 
@@ -72,10 +74,8 @@ function openPopupBigImage(name, link) {
 // ПР6 добавила валидацию при открытии
 function openPopup(popup) {
   popup.classList.add("popup_opened");
-  const formElement = popup.querySelector(".popup__edit");
-  if (popup !== imagePopup) {
-    validateForm(formElement);
-  }
+  document.addEventListener("keydown", closePopupEscape);
+  popup.addEventListener("click", closePopupOverlay);
 }
 
 
@@ -91,6 +91,8 @@ function validateForm(form, config = formValidationConfig) {
 //функция закрывающая открытый popup
 function closePopup(popup) {
   popup.classList.remove("popup_opened");
+  document.removeEventListener("keydown", closePopupEscape);
+  popup.removeEventListener("click", closePopupOverlay);
 }
 
 function saveEditProfile(evt) {
@@ -173,10 +175,5 @@ function closePopupEscape(evt) {
   }
 }
 
-const popupList = Array.from(document.querySelectorAll(".popup"));
-popupList.forEach((evt) => {
-  evt.addEventListener("click", closePopupOverlay);
-});
 
-// обработчик события для закрытия попапа по esc
-document.addEventListener("keydown", closePopupEscape);
+
