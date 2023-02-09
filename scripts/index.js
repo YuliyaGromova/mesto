@@ -75,16 +75,16 @@ function openPopupBigImage(name, link) {
 function openPopup(popup) {
   popup.classList.add("popup_opened");
   document.addEventListener("keydown", closePopupEscape);
-  popup.addEventListener("click", closePopupOverlay);
+  popup.addEventListener("mousedown", closePopupOverlay);
 }
 
 
 // ПР6 валидация формы при открытии
 function validateForm(form, config = formValidationConfig) {
   toggleButton(form, config);
-  const inputList = Array.from(form.querySelectorAll(".popup__item"));
-  inputList.forEach((item) => {
-    handelFormInput(item, config);
+  const errorList = Array.from(form.querySelectorAll(".popup__item-error"));
+  errorList.forEach((item) => {
+    hideError(item, config);
   });
 }
 
@@ -92,7 +92,7 @@ function validateForm(form, config = formValidationConfig) {
 function closePopup(popup) {
   popup.classList.remove("popup_opened");
   document.removeEventListener("keydown", closePopupEscape);
-  popup.removeEventListener("click", closePopupOverlay);
+  popup.removeEventListener("mousedown", closePopupOverlay);
 }
 
 function saveEditProfile(evt) {
@@ -110,7 +110,7 @@ function saveAddCard(evt) {
 }
 
 //лайки
-function likeDislike(evt) {
+function toggleLike(evt) {
   evt.target.classList.toggle("like_active");
 }
 
@@ -126,7 +126,7 @@ function createCard(name, link) {
   photoTemplate.src = link;
   photoTemplate.alt = name;
   cardTemplate.querySelector(".gallery__name-place").textContent = name;
-  cardTemplate.querySelector(".like").addEventListener("click", likeDislike);
+  cardTemplate.querySelector(".like").addEventListener("click", toggleLike);
   cardTemplate
     .querySelector(".gallery__delete")
     .addEventListener("click", deleteCard);

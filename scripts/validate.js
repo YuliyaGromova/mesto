@@ -40,7 +40,7 @@ const toggleButton = (form, config) => {
 };
 
 // отмена стандартного поведения браузера
-function disableSubmit(evt) {
+function preventDefault(evt) {
   evt.preventDefault();
 }
 
@@ -56,10 +56,10 @@ const setEventListenersInputs = (form, config) => {
 };
 
 // обработчик событий на форму
-function anableValidation(config) {
+function enableValidation(config) {
   const formList = document.querySelectorAll(config.formSelector);
   formList.forEach((form) => {
-    form.addEventListener("submit", disableSubmit);
+    form.addEventListener("submit", preventDefault);
     form.addEventListener("input", () => {
       toggleButton(form, config);
     });
@@ -68,4 +68,4 @@ function anableValidation(config) {
 }
 
 // вызов функции
-anableValidation(formValidationConfig);
+enableValidation(formValidationConfig);
