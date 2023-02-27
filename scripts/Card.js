@@ -34,8 +34,7 @@ export class Card {
       .addEventListener("click", () => {
         this._deleteCard();
       });
-    this._element
-      .querySelector(".gallery__photo")
+    this._photoElement
       .addEventListener("click", () => {
         this._funcOpenPopup(this._name, this._link);
       });
