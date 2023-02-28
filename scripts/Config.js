@@ -32,7 +32,8 @@ export const formValidationConfig = {
   inputSelector: ".popup__item",
   buttonSelector: ".popup__submit",
   buttonDisableClass: "popup__submit_noactive",
-  errorClass: "popup__item-error_active",
+  errorClassActive: "popup__item-error_active",
+  errorClass: "popup__item-error",
 };
 
 export const cardConfig = {

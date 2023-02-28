@@ -1,6 +1,6 @@
 import { Card } from "./Card.js";
 import { initialCards, formValidationConfig, cardConfig } from "./Config.js";
-import { FormValidator, FormAddCardValidator } from "./FormValidator.js";
+import { FormValidator } from "./FormValidator.js";
 
 
 const profilePopup = document.querySelector("#popupEdit");
@@ -24,7 +24,7 @@ const userNamePopup = profilePopup.querySelector(".popup__item_el_name");
 const userInfoPopup = profilePopup.querySelector(".popup__item_el_info");
 
 const formAddCard = document.forms["popupAdd"];
-const formSaveCard = new FormAddCardValidator(
+const formSaveCard = new FormValidator(
   formAddCard,
   formValidationConfig
 );
@@ -32,18 +32,19 @@ const photoNamePlacePopup = cardPopup.querySelector(".popup__item_el_name");
 const photoLinkPlacePopup = cardPopup.querySelector(".popup__item_el_info");
 const imagePopupBigPhoto = imagePopup.querySelector(".popup__photo");
 const subtitlePopupBigPhoto = document.querySelector(".popup__subtitle");
-
+const gallery=document.querySelector(cardConfig.galleryClass);
 
 //функции открывающие popup
 function openPopupProfile() {
   userNamePopup.value = userName.textContent;
   userInfoPopup.value = userInfo.textContent;
-  formSaveEditProfile.reset();
+  formSaveEditProfile.resetValidation();
   openPopup(profilePopup);
 }
 
 function openPopupAddCard() {
-  formSaveCard.reset();
+  formAddCard.reset();
+  formSaveCard.resetValidation();
   openPopup(cardPopup);
 }
 
@@ -95,15 +96,19 @@ function saveAddCard(evt) {
     name: photoNamePlacePopup.value,
     link: photoLinkPlacePopup.value,
   };
-  createNewCard(item, cardConfig, openPopupBigImage);
+  createNewCard(item);
   closePopup(cardPopup);
 }
-
-// создание экземляра класса Card
-function createNewCard(obj, config, func) {
-  const card = new Card(obj, config.templateSelector, openPopupBigImage);
+//подготовка карточки
+function getCard(item) {
+  const card = new Card(item, cardConfig.templateSelector, openPopupBigImage);
   const cardElement = card.generateCard();
-  document.querySelector(config.galleryClass).prepend(cardElement);
+  return cardElement;
+}
+// создание экземляра класса Card
+function createNewCard(item) {
+  const cardElement = getCard(item);
+  gallery.prepend(cardElement);
 }
 
 //кнопка "сохранить" в popup сохраняет введенные значения и закрывает popup (навешивание события на все кнопки сохраняющие изменения)

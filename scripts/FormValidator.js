@@ -2,15 +2,22 @@ export class FormValidator {
   constructor(form, config) {
     this._form = form;
     this._config = config;
+    this._buttonSubmit = this._form.querySelector(this._config.buttonSelector);
+    this._inputList = Array.from(
+      this._form.querySelectorAll(this._config.inputSelector)
+    );
+    this._errorList = Array.from(
+      this._form.querySelectorAll(`.${this._config.errorClass}`)
+    );
   }
 
   _hideError() {
-    this._error.classList.remove(this._config.errorClass);
+    this._error.classList.remove(this._config.errorClassActive);
   }
 
   _showError() {
     this._error.textContent = this._input.validationMessage;
-    this._error.classList.add(this._config.errorClass);
+    this._error.classList.add(this._config.errorClassActive);
   }
 
   _handelFormInput() {
@@ -25,7 +32,6 @@ export class FormValidator {
   }
 
   _toggleButton() {
-    this._buttonSubmit = this._form.querySelector(this._config.buttonSelector);
     this._isFormValid = this._form.checkValidity();
     this._buttonSubmit.disabled = !this._isFormValid;
     this._buttonSubmit.classList.toggle(
@@ -37,10 +43,8 @@ export class FormValidator {
   _preventDefault() {
     this._form.preventDefault();
   }
-  _setEventListenersInputs() {
-    this._inputList = Array.from(
-      this._form.querySelectorAll(this._config.inputSelector)
-    );
+
+  _setEventListenersInputs() {  
     this._inputList.forEach((input) => {
       input.addEventListener("input", () => {
         this._input = input;
@@ -50,33 +54,17 @@ export class FormValidator {
   }
 
   enableValidation() {
-    // this._form.addEventListener("submit", () => {
-    //   this._preventDefault();
-    // });
     this._form.addEventListener("input", () => {
       this._toggleButton();
     });
     this._setEventListenersInputs();
   }
 
-  reset() {
-    this._toggleButton();
-    this._errorList = Array.from(
-      this._form.querySelectorAll(`.${this._config.errorClass}`)
-    );
+  resetValidation() {
+    this._toggleButton(); 
     this._errorList.forEach((error) => {
       error.textContent = "";
     });
   }
 }
 
-export class FormAddCardValidator extends FormValidator {
-  constructor(form, config) {
-    super(form, config);
-  }
-
-  reset() {
-    this._form.reset();
-    super.reset();
-  }
-}
