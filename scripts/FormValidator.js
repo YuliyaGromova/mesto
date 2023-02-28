@@ -13,11 +13,13 @@ export class FormValidator {
 
   _hideError() {
     this._error.classList.remove(this._config.errorClassActive);
+    this._input.style.borderBottomColor = '#bcbcc4';
   }
 
   _showError() {
     this._error.textContent = this._input.validationMessage;
     this._error.classList.add(this._config.errorClassActive);
+    this._input.style.borderBottomColor = '#ff0000';
   }
 
   _handelFormInput() {
@@ -26,8 +28,10 @@ export class FormValidator {
 
     if (this._input.validity.valid) {
       this._hideError();
+      
     } else {
       this._showError();
+      
     }
   }
 
@@ -64,6 +68,9 @@ export class FormValidator {
     this._toggleButton(); 
     this._errorList.forEach((error) => {
       error.textContent = "";
+    });
+    this._inputList.forEach((input) => {
+      input.style.borderBottomColor = '#bcbcc4';
     });
   }
 }

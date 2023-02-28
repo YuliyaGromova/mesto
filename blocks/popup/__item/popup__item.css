@@ -15,7 +15,3 @@
 .popup__item:focus {
   outline-style: none;
 }
-
-.popup__item:invalid {
-  border-bottom: 1px solid #ff0000;
-}
