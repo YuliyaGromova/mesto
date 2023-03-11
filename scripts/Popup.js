@@ -11,47 +11,32 @@ export class Popup {
         this._selector = selector;
         this._popup=document.querySelector(this._selector);
         this._bottonClose = this._popup.querySelector(".popup__toggle");
-    }
+    } 
     setEventListeners() {
-        document.addEventListener("keydown", (evt) => {
-            this._closePopupEscape(evt)
-        },{ once: true });
         this._popup.addEventListener("mousedown", (evt) => {
             this._closePopupOverlay(evt)
-        }, { once: true });
+        });
         this._bottonClose.addEventListener('click', () => {
             this.close()
-        }, { once: true });
+        });
     }
     open() {
         this._popup.classList.add("popup_opened");
-        this.setEventListeners();
+        document.addEventListener("keydown", this._handleEscClose);
     }
     close() {
         this._popup.classList.remove("popup_opened");
+        document.removeEventListener("keydown", this._handleEscClose);
     }
     _closePopupOverlay(evt) {
         if (evt.currentTarget === evt.target) {
           this.close();
         }
       }
-    _closePopupEscape(evt) {
+    
+    _handleEscClose = (evt) => {
         if (evt.key == "Escape") {
           this.close();
         }
       }
 }
-
-// Создайте класс PopupWithImage
-// Создайте класс PopupWithImage, который наследует от Popup.
-// Этот класс должен перезаписывать родительский метод open. 
-// В методе open класса PopupWithImage нужно вставлять в попап картинку с src изображения и подписью к картинке.
-// Создайте класс PopupWithForm
-// Создайте класс PopupWithForm, который наследует от Popup. 
-// Этот класс:
-// Кроме селектора попапа принимает в конструктор колбэк сабмита формы.
-// Содержит приватный метод _getInputValues, который собирает данные всех полей формы.
-// Перезаписывает родительский метод setEventListeners. 
-// Метод setEventListeners класса PopupWithForm должен не только добавлять обработчик клика иконке закрытия, но и добавлять обработчик сабмита формы.
-// Перезаписывает родительский метод close, так как при закрытии попапа форма должна ещё и сбрасываться.
-// Для каждого попапа создавайте свой экземпляр класса PopupWithForm.

@@ -19,7 +19,6 @@ export class FormValidator {
   _showError() {
     this._error.textContent = this._input.validationMessage;
     this._error.classList.add(this._config.errorClassActive);
-    //this._input.style.borderBottomColor = '#ff0000';
     this._input.classList.add(this._config.inputErrorClass);
   }
 
