@@ -6,7 +6,6 @@ import { PopupWithImage } from "./PopupWithImage.js";
 import { PopupWithForm } from "./PopupWithForm.js";
 import { UserInfo } from "./UserInfo.js";
 
-
 const profilePopupClass = new PopupWithForm("#popupEdit", saveEditProfile);
 profilePopupClass.setEventListeners();
 const cardPopupClass = new PopupWithForm("#popupAdd", saveAddCard);
@@ -27,19 +26,17 @@ const formSaveEditProfile = new FormValidator(
 );
 
 const formAddCard = document.forms["popupAdd"];
-const formSaveCard = new FormValidator(
-  formAddCard,
-  formValidationConfig
-);
+const formSaveCard = new FormValidator(formAddCard, formValidationConfig);
 
-const cardList = new Section ({
-  data: initialCards,
-  renderer: (item) => {
-    const cardElement = getCard(item);
-    cardList.addItem(cardElement);
+const cardList = new Section(
+  {
+    data: initialCards,
+    renderer: (item) => {
+      const cardElement = getCard(item);
+      cardList.addItem(cardElement);
+    },
   },
-},
-cardConfig.galleryClass
+  cardConfig.galleryClass
 );
 
 cardList.renderItems();
@@ -58,8 +55,8 @@ function openPopupAddCard() {
   cardPopupClass.open();
 }
 
-function openPopupBigImage(name, link) {  
-  imagePopupClass.open({name, link});
+function openPopupBigImage(name, link) {
+  imagePopupClass.open({ name, link });
 }
 
 function getCard(item) {
