@@ -2,14 +2,14 @@ export class Popup {
   constructor(selector) {
     this._selector = selector;
     this._popup = document.querySelector(this._selector);
-    this._bottonClose = this._popup.querySelector(".popup__toggle");
+    this._buttonClose = this._popup.querySelector(".popup__toggle");
   }
 
   setEventListeners() {
     this._popup.addEventListener("mousedown", (evt) => {
       this._closePopupOverlay(evt);
     });
-    this._bottonClose.addEventListener("click", () => {
+    this._buttonClose.addEventListener("click", () => {
       this.close();
     });
   }

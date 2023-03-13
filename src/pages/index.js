@@ -21,13 +21,13 @@ const buttonAddCard = profile.querySelector(".profile__button-add");
 const profileClass = new UserInfo(".profile__name", ".profile__info");
 
 const formProfile = document.forms["popupEdit"];
-const formSaveEditProfile = new FormValidator(
+const validatorEditProfile = new FormValidator(
   formProfile,
   formValidationConfig
 );
 
 const formAddCard = document.forms["popupAdd"];
-const formSaveCard = new FormValidator(formAddCard, formValidationConfig);
+const validatorAddCard = new FormValidator(formAddCard, formValidationConfig);
 
 const cardList = new Section(
   {
@@ -45,14 +45,14 @@ cardList.renderItems();
 //функции открывающие popup
 function openPopupProfile() {
   const data = profileClass.getUserInfo();
-  profilePopupClass.getInputValues(data);
-  formSaveEditProfile.resetValidation();
+  profilePopupClass.setInputValues(data);
+  validatorEditProfile.resetValidation();
   profilePopupClass.open();
 }
 
 function openPopupAddCard() {
   formAddCard.reset();
-  formSaveCard.resetValidation();
+  validatorAddCard.resetValidation();
   cardPopupClass.open();
 }
 
@@ -87,5 +87,5 @@ buttonEditProfile.addEventListener("click", openPopupProfile);
 buttonAddCard.addEventListener("click", openPopupAddCard);
 
 //вызов функции валидации форм
-formSaveEditProfile.enableValidation();
-formSaveCard.enableValidation();
+validatorEditProfile.enableValidation();
+validatorAddCard.enableValidation();

@@ -4,17 +4,16 @@ export class PopupWithForm extends Popup {
   constructor(selector, saveChanges) {
     super(selector);
     this._form = this._popup.querySelector(".popup__edit");
-    this._name = this._form.querySelector(".popup__item_el_name");
-    this._info = this._form.querySelector(".popup__item_el_info");
     this._saveChanges = saveChanges;
+    this._inputList= Array.from(
+      this._form.querySelectorAll('.popup__item'));
   }
 
   _getInputValues() {
-    this._data = {
-      name: this._name.value,
-      info: this._info.value,
-      link: this._info.value,
-    };
+    this._data = {};
+    this._inputList.forEach((input) => {
+      this._data[input.name] = input.value;
+    })
     return this._data;
   }
 
@@ -30,8 +29,9 @@ export class PopupWithForm extends Popup {
     this._form.reset();
   }
   
-  getInputValues(data) {
-    this._name.value = data.name;
-    this._info.value = data.info;
+  setInputValues(data) {
+    this._inputList.forEach((input) => {
+      input.value = data[input.name];
+    });
   }
 }
