@@ -29,12 +29,13 @@ ________________________
 * возможность ставить и снимать отметку "Лайк"
 * валидация всех форм
 * выполнен рефакторинг
+* теперь информация приходит с сервера, отправляется на сервер
 
 ### Webpack
 * выполнена сборка проекта
 
 ### Планы по доработке:
-* подключение проекта Mesto к серверу
+* портировать проект Mesto на "Реакт"
 
 ### Ссылка на сайт:
 
@@ -49,6 +50,7 @@ ________________________
 * [ПР4 - Ссылка на макет в Figma](https://www.figma.com/file/2cn9N9jSkmxD84oJik7xL7/JavaScript.-Sprint-4?node-id=0%3A1)
 * [ПР5 - Ссылка на макет в Figma](https://www.figma.com/file/bjyvbKKJN2naO0ucURl2Z0/JavaScript.-Sprint-5?node-id=0%3A1)
 * [ПР6 - Ссылка на макет в figma](https://www.figma.com/file/kRVLKwYG3d1HGLvh7JFWRT/JavaScript.-Sprint-6?node-id=0%3A1)
+* [ПР9 - Ссылка на макет в figma](https://www.figma.com/file/PSdQFRHoxXJFs2FH8IXViF/JavaScript-9-sprint?node-id=0%3A1)
 
 **Картинки**
 
