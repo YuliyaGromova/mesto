@@ -13,7 +13,12 @@
     </header>
     <main class="content">
       <section class="profile" aria-label="Профиль пользователя">
-        <img class="profile__avatar" src="<%=require('./images/kusto.png')%>" alt="ваша фотография">
+        <div class="profile__edit-avatar">
+          <img class="profile__avatar" src="<%=require('./images/kusto.png')%>" alt="ваша фотография">
+          <button class="profile__button-avatar button" type="button" name="editAvatar">
+            <img src="<%=require('./images/editAvatar.svg')%>" alt="редактировать">
+          </button>
+        </div>
         <div class="profile__user">
           <div class="profile__name-edit">
             <h1 class="profile__name">Жак-Ив Кусто</h1>
@@ -43,8 +48,11 @@
             </li>
           </template> 
         </ul>
-      </section>      
+      </section>
     </main>
+    <section class="error">
+        <h2 class="error__message">По техническим причинам страница недоступна. Попробуйте позднее...</h2>
+    </section>    
     <footer class="footer">
       <p class="footer__author">&copy; 2022-2023 Mesto Russia</p>
     </footer>
@@ -137,9 +145,9 @@
           <input class="popup__item popup__item_el_info"
             type="url"
             placeholder="Ссылка на Вашу фотографию"
-            id="link" name="link"
+            id="avatar" name="avatar"
             required>
-            <span class="link-error popup__item-error"></span>
+            <span class="avatar-error popup__item-error"></span>
           <button class="popup__submit"
           type="submit"
           name="saveEdit">Сохранить</button>
