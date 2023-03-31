@@ -1,7 +1,5 @@
-import { Api } from "./Api.js";
-
 export class Card {
-  constructor(item, template, handleCardClick, openPopupCardDelete,checkMyLike, api) {
+  constructor(item, template, handleCardClick, openPopupCardDelete, checkMyLike, toggleLike) {
     this._link = item.link;
     this._name = item.name;
     this._owner = item.owner._id; //id создателя карточки
@@ -11,7 +9,7 @@ export class Card {
     this._openPopupCardDelete = openPopupCardDelete;
     this._myLike=checkMyLike(item.likes); //проверяем есть ли среди лайкнувших пользователь с id пользователя
     this._likeCounter = item.likes.length; // количество лайков
-    this._api=api;
+    this._toggleLike = toggleLike;
   }
   _getTemplate() {
     const cardTemplate = this._template.content
@@ -42,14 +40,14 @@ export class Card {
       this._element
         .querySelector(".gallery__delete")
         .addEventListener("click", () => {
-          this._openPopupCardDelete(this._id);
+          this._openPopupCardDelete(this._id, this._element);
         });
     }
   }
 
   _setEventListeners() {
     this._elementLike.addEventListener("click", () => {
-      this._toggleLike();
+      this._toggleLike(this);
     });
     
     this._photoElement
@@ -62,20 +60,9 @@ export class Card {
     this._textCounter.textContent = this._likeCounter;
   }
 
-  _toggleLike() {
-    if (!this._myLike) {
-      this._elementLike.classList.add("like_active");
-      this._likeCounter = +this._likeCounter +1
-      this._countLike();
-      this._api.putLike(this._id)
-        .catch((err)=> {console.log(err)})
-    } else {
-      this._elementLike.classList.remove("like_active");
-      this._likeCounter = +this._likeCounter -1;
-      this._countLike();
-      this._api.takeOfLike(this._id)
-      .catch((err)=> {console.log(err)})
-    }
+  toggleLike(likeCount) {
+    this._elementLike.classList.toggle("like_active");
+    this._textCounter.textContent = likeCount;
     this._myLike = !this._myLike;
   }
 
@@ -84,6 +71,6 @@ export class Card {
         this._elementLike.classList.add("like_active");
       } 
   }
-
+  
 }
 

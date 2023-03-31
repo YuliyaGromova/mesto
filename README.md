@@ -39,7 +39,7 @@ ________________________
 
 ### Ссылка на сайт:
 
-* [Ссылка на сайт](https://yuliyagromova.github.io/mesto/index.html)
+* [Ссылка на сайт](https://yuliyagromova.github.io/mesto)
 
 ### Используемые материалы:
 * Figma

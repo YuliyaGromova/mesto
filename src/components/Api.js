@@ -5,7 +5,6 @@ export class Api {
     this._authorization = options.headers.authorization;
   }
 
-
   _checkResult(res) {
     if (res.ok) {
       return res.json();

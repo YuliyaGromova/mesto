@@ -1,5 +1,5 @@
 import { Card } from "../components/Card.js";
-import { formValidationConfig, cardConfig } from "../components/Config.js";
+import { formValidationConfig, cardConfig } from "../components/config.js";
 import { FormValidator } from "../components/FormValidator.js";
 import { Section } from "../components/Section.js";
 import { PopupForDeleteCard } from "../components/PopupForDeleteCard.js";
@@ -55,44 +55,31 @@ const validatorAddCard = new FormValidator(formAddCard, formValidationConfig);
 
 
 let userId;
-// при загрузке страницы загружаются данные пользователя
-api
-  .getUserInfo()
-  .then((data) => {
-    userId = data._id;
-    profileClass.setUserInfo(data);
+let cardList;
+
+Promise.all([ //в Promise.all передаем массив промисов которые нужно выполнить
+    api.getUserInfo(),
+    api.getInitialCards()
+])
+  .then((data)=>{
+    userId = data[0]._id;
+    profileClass.setUserInfo(data[0]);
+    data[1].reverse();
+    cardList = new Section(
+  {
+    renderer: (item) => {
+      const cardElement = getCard(item);
+      cardList.addItem(cardElement);
+    },
+  },
+  cardConfig.galleryClass
+);
+    cardList.renderItems(data[1]);
   })
-  .catch((err) => {
+  .catch((err)=>{ //попадаем сюда если один из промисов завершаться ошибкой
     console.log(err);
     disabledAll();
-  });
-
-// Добавление умолчательных карточек с сервера
-
-api
-  .getInitialCards()
-  .then((res) => {
-    createCardList(res);
-  })
-  .catch((err) => {
-    console.log(err);
-  });
-
-// карточки в галерею
-function createCardList(res) {
-  const cardList = new Section(
-    {
-      data: res.reverse(),
-      renderer: (item) => {
-        const cardElement = getCard(item);
-        cardList.addItem(cardElement);
-      },
-    },
-    cardConfig.galleryClass
-  );
-
-  cardList.renderItems();
-}
+  }) 
 
 function errorApiMessage(err) {
   console.log(err);
@@ -106,8 +93,6 @@ function disabledAll() {
   document.querySelector('.error').classList.add('error_active');
 }
 
-
-
 //функции открывающие popup
 function openPopupProfile() {
   const data = profileClass.getUserInfo();
@@ -117,7 +102,7 @@ function openPopupProfile() {
 }
 
 function openPopupAddCard() {
-  formAddCard.reset();
+  //formAddCard.reset();
   validatorAddCard.resetValidation();
   cardPopupClass.open();
 }
@@ -126,8 +111,8 @@ function openPopupBigImage(name, link) {
   imagePopupClass.open({ name, link });
 }
 
-function openPopupDetitionConfirmation(cardId) {
-  cardDeletePopupClass.open(cardId);
+function openPopupDetitionConfirmation(cardId, card) {
+  cardDeletePopupClass.open(cardId, card);
 }
 
 function openPopupEditAvatar() {
@@ -148,6 +133,24 @@ function checkMyLike(likes) {
   return myLike;
 }
 
+function toggleLike(card) {
+  if (!card._myLike) {
+    api.putLike(card._id)
+      .then((resAdd) => {
+        card.toggleLike(resAdd.likes.length);
+      })
+      .catch((err)=> {console.log(err)})
+  } else {
+    
+    api.takeOfLike(card._id)
+      .then((resDel) => {
+        card.toggleLike(resDel.likes.length);
+      })
+      .catch((err)=> {console.log(err)})
+  }
+
+}
+
 function getCard(item) {
   const card = new Card(
     item,
@@ -155,7 +158,7 @@ function getCard(item) {
     openPopupBigImage,
     openPopupDetitionConfirmation,
     checkMyLike,
-    api
+    toggleLike
   );
   const cardElement = card.generateCard();
   card.handleDeleteCard(userId);
@@ -187,17 +190,11 @@ function saveAddCard(evt, data) {
   cardPopupClass.renderLoading(true);
   api
     .addNewCard(data)
-    .then(() => {
-      api
-        .getInitialCards()
-        .then((res) => {
-          createCardList(res);
-          cardPopupClass.close();
-        })
-        .catch((err) => {
-          errorApiMessage(err);
-        });
-    })
+    .then((res) => {
+      const cardElement = getCard(res);
+      cardList.addItem(cardElement);
+      cardPopupClass.close();
+    })    
     .catch((err) => {
       console.log(err);
       errorApiMessage(err);
@@ -212,8 +209,8 @@ function saveNewAvatar(evt, data) {
   avatarPopupClass.renderLoading(true);
   api
     .editAvatar(data)
-    .then(() => {
-      profileClass.setUserAvatar(data.avatar);
+    .then((res) => {
+      profileClass.setUserAvatar(res.avatar);
       avatarPopupClass.close();
     })
     .catch((err) => {
@@ -224,21 +221,14 @@ function saveNewAvatar(evt, data) {
     })
 }
 
-function deleteCard(evt, cardId) {
+function deleteCard(evt, cardId, card) {
   evt.preventDefault();
   api
-    .deleteCard(cardId)
+    .deleteCard(cardId, card)
     .then(() => {
-      api
-        .getInitialCards()
-        .then((res) => {
-          createCardList(res);
-          cardDeletePopupClass.close();
+        card.remove();
+        cardDeletePopupClass.close();
         })
-        .catch((err) => {
-          errorApiMessage(err);
-        });
-    })
     .catch((err) => {
       errorApiMessage(err);
     });
