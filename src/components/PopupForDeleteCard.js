@@ -18,4 +18,6 @@ export class PopupForDeleteCard extends Popup {
           this._saveChanges(evt, this._id, this._element);
         });
       }
+
+      
 }

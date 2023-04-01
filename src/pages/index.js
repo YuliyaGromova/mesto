@@ -30,7 +30,7 @@ imagePopupClass.setEventListeners();
 
 const cardDeletePopupClass = new PopupForDeleteCard(
   "#popupDeleteCard",
-  deleteCard
+  saveDeleteCard
 );
 cardDeletePopupClass.setEventListeners();
 
@@ -55,7 +55,15 @@ const validatorAddCard = new FormValidator(formAddCard, formValidationConfig);
 
 
 let userId;
-let cardList;
+const cardList = new Section(
+  {
+    renderer: (item) => {
+      const cardElement = getCard(item);
+      cardList.addItem(cardElement);
+    },
+  },
+  cardConfig.galleryClass
+);
 
 Promise.all([ //в Promise.all передаем массив промисов которые нужно выполнить
     api.getUserInfo(),
@@ -65,15 +73,6 @@ Promise.all([ //в Promise.all передаем массив промисов к
     userId = data[0]._id;
     profileClass.setUserInfo(data[0]);
     data[1].reverse();
-    cardList = new Section(
-  {
-    renderer: (item) => {
-      const cardElement = getCard(item);
-      cardList.addItem(cardElement);
-    },
-  },
-  cardConfig.galleryClass
-);
     cardList.renderItems(data[1]);
   })
   .catch((err)=>{ //попадаем сюда если один из промисов завершаться ошибкой
@@ -102,7 +101,6 @@ function openPopupProfile() {
 }
 
 function openPopupAddCard() {
-  //formAddCard.reset();
   validatorAddCard.resetValidation();
   cardPopupClass.open();
 }
@@ -116,40 +114,10 @@ function openPopupDetitionConfirmation(cardId, card) {
 }
 
 function openPopupEditAvatar() {
-  formAvatar.reset();
   validatorEditAvatar.resetValidation();
   avatarPopupClass.open();
 }
 
-function checkMyLike(likes) {
-  let myLike = false;
-  if (likes.length) {
-    likes.forEach((like) => {
-      if (like._id === userId) {
-        myLike = true;
-      }
-    });
-  }
-  return myLike;
-}
-
-function toggleLike(card) {
-  if (!card._myLike) {
-    api.putLike(card._id)
-      .then((resAdd) => {
-        card.toggleLike(resAdd.likes.length);
-      })
-      .catch((err)=> {console.log(err)})
-  } else {
-    
-    api.takeOfLike(card._id)
-      .then((resDel) => {
-        card.toggleLike(resDel.likes.length);
-      })
-      .catch((err)=> {console.log(err)})
-  }
-
-}
 
 function getCard(item) {
   const card = new Card(
@@ -157,11 +125,9 @@ function getCard(item) {
     cardConfig.templateSelector,
     openPopupBigImage,
     openPopupDetitionConfirmation,
-    checkMyLike,
-    toggleLike
+    api
   );
-  const cardElement = card.generateCard();
-  card.handleDeleteCard(userId);
+  const cardElement = card.generateCard(userId);
   return cardElement;
 }
 
@@ -221,12 +187,12 @@ function saveNewAvatar(evt, data) {
     })
 }
 
-function deleteCard(evt, cardId, card) {
+
+function saveDeleteCard(evt, cardId, card) {
   evt.preventDefault();
   api
-    .deleteCard(cardId, card)
+    .deleteCardApi(cardId)
     .then(() => {
-        card.remove();
         cardDeletePopupClass.close();
         })
     .catch((err) => {

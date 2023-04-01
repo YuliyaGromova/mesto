@@ -66,7 +66,7 @@ export class Api {
   }
 
   // Удаление карточки
-  deleteCard(cardId) {
+  deleteCardApi(cardId) {
     return fetch(this._baseUrl + `/cards/${cardId}`, {
       method: "DELETE",
       headers: {

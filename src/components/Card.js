@@ -1,5 +1,5 @@
 export class Card {
-  constructor(item, template, handleCardClick, openPopupCardDelete, checkMyLike, toggleLike) {
+  constructor(item, template, handleCardClick, openPopupCardDelete, api) {
     this._link = item.link;
     this._name = item.name;
     this._owner = item.owner._id; //id создателя карточки
@@ -7,9 +7,9 @@ export class Card {
     this._template = document.querySelector(template);
     this._handleCardClick = handleCardClick; //открываем попап просмотра карточки
     this._openPopupCardDelete = openPopupCardDelete;
-    this._myLike=checkMyLike(item.likes); //проверяем есть ли среди лайкнувших пользователь с id пользователя
+    this._likes = item.likes;
     this._likeCounter = item.likes.length; // количество лайков
-    this._toggleLike = toggleLike;
+    this._api = api;
   }
   _getTemplate() {
     const cardTemplate = this._template.content
@@ -18,7 +18,7 @@ export class Card {
     return cardTemplate;
   }
 
-  generateCard() {
+  generateCard(userId) {
     this._element = this._getTemplate();
     this._photoElement = this._element.querySelector(".gallery__photo");
     this._elementLike = this._element.querySelector(".like");
@@ -28,8 +28,10 @@ export class Card {
       this._name;
     this._textCounter = this._element.querySelector('.gallery__like-counter');
     this._countLike();
+    this._myLike = this._checkMyLike(userId);
     this._showMyLike(); //если есть "мой" лайк красим сердечко
     this._setEventListeners();
+    this.handleDeleteCard(userId);
     return this._element;
   }
 
@@ -45,9 +47,21 @@ export class Card {
     }
   }
 
+  _checkMyLike(userId) {
+    if (this._likeCounter) {
+      this._likes.forEach((like) => {
+        if (like._id === userId) {
+          this._myLike = true;
+        } else {
+          this._myLike = false;
+        }
+      });
+    } return this._myLike; 
+  }
+
   _setEventListeners() {
     this._elementLike.addEventListener("click", () => {
-      this._toggleLike(this);
+      this._toggleLike();
     });
     
     this._photoElement
@@ -60,10 +74,28 @@ export class Card {
     this._textCounter.textContent = this._likeCounter;
   }
 
-  toggleLike(likeCount) {
+  _showToggleLike(likeCount) {
     this._elementLike.classList.toggle("like_active");
     this._textCounter.textContent = likeCount;
     this._myLike = !this._myLike;
+  }
+
+  _toggleLike() {
+    if (!this._myLike) {
+      this._api.putLike(this._id)
+        .then((resAdd) => {
+          this._showToggleLike(resAdd.likes.length);
+        })
+        .catch((err)=> {console.log(err)})
+    } else {
+      
+      this._api.takeOfLike(this._id)
+        .then((resDel) => {
+          this._showToggleLike(resDel.likes.length);
+        })
+        .catch((err)=> {console.log(err)})
+    }
+  
   }
 
   _showMyLike() {
@@ -71,6 +103,9 @@ export class Card {
         this._elementLike.classList.add("like_active");
       } 
   }
-  
-}
 
+  deleteCard() {
+    this.element.closest(".gallery__card").remove();
+  }
+
+}
