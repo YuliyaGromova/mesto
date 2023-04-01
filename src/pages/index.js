@@ -193,6 +193,8 @@ function saveDeleteCard(evt, cardId, card) {
   api
     .deleteCardApi(cardId)
     .then(() => {
+        
+        card.deleteCard();
         cardDeletePopupClass.close();
         })
     .catch((err) => {

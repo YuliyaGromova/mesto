@@ -42,7 +42,7 @@ export class Card {
       this._element
         .querySelector(".gallery__delete")
         .addEventListener("click", () => {
-          this._openPopupCardDelete(this._id, this._element);
+          this._openPopupCardDelete(this._id, this);
         });
     }
   }
@@ -105,7 +105,7 @@ export class Card {
   }
 
   deleteCard() {
-    this.element.closest(".gallery__card").remove();
+    this._element.closest(".gallery__card").remove();
   }
 
 }
