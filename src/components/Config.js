@@ -1,7 +1,3 @@
-//Массив с умолчательными карточками
-
-
-
 //конфигурационный объект
 export const formValidationConfig = {
   formSelector: ".popup__edit",
