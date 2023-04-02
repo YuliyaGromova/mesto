@@ -109,8 +109,8 @@ function openPopupBigImage(name, link) {
   imagePopupClass.open({ name, link });
 }
 
-function openPopupDetitionConfirmation(cardId, card) {
-  cardDeletePopupClass.open(cardId, card);
+function openPopupDetitionConfirmation(cardId, deleteCard) {
+  cardDeletePopupClass.open(cardId, deleteCard);
 }
 
 function openPopupEditAvatar() {
@@ -125,9 +125,10 @@ function getCard(item) {
     cardConfig.templateSelector,
     openPopupBigImage,
     openPopupDetitionConfirmation,
-    api
+    toggleLike,
+    userId
   );
-  const cardElement = card.generateCard(userId);
+  const cardElement = card.generateCard();
   return cardElement;
 }
 
@@ -149,6 +150,24 @@ function saveEditProfile(evt, data) {
     }
       
     )
+}
+
+function toggleLike(cardId, cardMyLike, showToggleLike) {
+  if (!cardMyLike) {
+    api.putLike(cardId)
+      .then((resAdd) => {
+         showToggleLike(resAdd.likes.length);
+      })
+      .catch((err)=> {console.log(err)})
+  } else {
+    
+    api.takeOfLike(cardId)
+      .then((resDel) => {
+        showToggleLike(resDel.likes.length);
+      })
+      .catch((err)=> {console.log(err)})
+  }
+
 }
 
 function saveAddCard(evt, data) {
@@ -188,13 +207,12 @@ function saveNewAvatar(evt, data) {
 }
 
 
-function saveDeleteCard(evt, cardId, card) {
+function saveDeleteCard(evt, cardId, deleteCard) {
   evt.preventDefault();
   api
     .deleteCardApi(cardId)
     .then(() => {
-        
-        card.deleteCard();
+        deleteCard();
         cardDeletePopupClass.close();
         })
     .catch((err) => {

@@ -1,5 +1,5 @@
 export class Card {
-  constructor(item, template, handleCardClick, openPopupCardDelete, api) {
+  constructor(item, template, handleCardClick, openPopupCardDelete,toggleLike, userId) {
     this._link = item.link;
     this._name = item.name;
     this._owner = item.owner._id; //id создателя карточки
@@ -9,7 +9,8 @@ export class Card {
     this._openPopupCardDelete = openPopupCardDelete;
     this._likes = item.likes;
     this._likeCounter = item.likes.length; // количество лайков
-    this._api = api;
+    this._userId = userId;
+    this._toggleLike = toggleLike;
   }
   _getTemplate() {
     const cardTemplate = this._template.content
@@ -18,7 +19,7 @@ export class Card {
     return cardTemplate;
   }
 
-  generateCard(userId) {
+  generateCard() {
     this._element = this._getTemplate();
     this._photoElement = this._element.querySelector(".gallery__photo");
     this._elementLike = this._element.querySelector(".like");
@@ -28,29 +29,31 @@ export class Card {
       this._name;
     this._textCounter = this._element.querySelector('.gallery__like-counter');
     this._countLike();
-    this._myLike = this._checkMyLike(userId);
-    this._showMyLike(); //если есть "мой" лайк красим сердечко
+    this._myLike = this._checkMyLike();
+    if (this._myLike) {
+      this._showMyLike(); //если есть "мой" лайк красим сердечко
+    }
     this._setEventListeners();
-    this.handleDeleteCard(userId);
+    this.handleDeleteCard();
     return this._element;
   }
 
-  handleDeleteCard(userId) {
-    if (userId === this._owner) {
+  handleDeleteCard() {
+    if (this._userId === this._owner) {
       this._element.querySelector('.gallery__delete').classList.add('gallery__delete_active');
     
       this._element
         .querySelector(".gallery__delete")
         .addEventListener("click", () => {
-          this._openPopupCardDelete(this._id, this);
+          this._openPopupCardDelete(this._id, this.deleteCard);
         });
     }
   }
 
-  _checkMyLike(userId) {
+  _checkMyLike() {
     if (this._likeCounter) {
       this._likes.forEach((like) => {
-        if (like._id === userId) {
+        if (like._id === this._userId) {
           this._myLike = true;
         } else {
           this._myLike = false;
@@ -61,7 +64,7 @@ export class Card {
 
   _setEventListeners() {
     this._elementLike.addEventListener("click", () => {
-      this._toggleLike();
+      this._toggleLike(this._id, this._myLike, this.showToggleLiKe);
     });
     
     this._photoElement
@@ -74,37 +77,19 @@ export class Card {
     this._textCounter.textContent = this._likeCounter;
   }
 
-  _showToggleLike(likeCount) {
+  showToggleLiKe = (likeCount) => {
     this._elementLike.classList.toggle("like_active");
     this._textCounter.textContent = likeCount;
     this._myLike = !this._myLike;
   }
 
-  _toggleLike() {
-    if (!this._myLike) {
-      this._api.putLike(this._id)
-        .then((resAdd) => {
-          this._showToggleLike(resAdd.likes.length);
-        })
-        .catch((err)=> {console.log(err)})
-    } else {
-      
-      this._api.takeOfLike(this._id)
-        .then((resDel) => {
-          this._showToggleLike(resDel.likes.length);
-        })
-        .catch((err)=> {console.log(err)})
-    }
-  
-  }
-
   _showMyLike() {
-      if (this._myLike) {
-        this._elementLike.classList.add("like_active");
-      } 
+    if (this._myLike) {
+      this._elementLike.classList.add("like_active");
+    } 
   }
 
-  deleteCard() {
+  deleteCard = () => {
     this._element.closest(".gallery__card").remove();
   }
 
